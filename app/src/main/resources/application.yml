@@ -3,7 +3,3 @@ server:
 spring:
   application:
     name: stream
-swagger:
-  title: Stream API
-  description: Stream API that publishs a message
-  include: /api/.*
