@@ -1,5 +1,11 @@
 server:
-  port: 8880
+  port: 8080
 spring:
   application:
     name: stream
+  activemq:
+    broker-url: tcp://localhost:61616
+    # user:
+    # password:
+    packages:
+      trust-all: true
