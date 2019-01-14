@@ -1,5 +1,8 @@
 server:
   port: 8080
+feature:
+  jms: true
+  stream: true
 spring:
   application:
     name: stream
@@ -9,3 +12,14 @@ spring:
     # password:
     packages:
       trust-all: true
+  cloud:
+    stream:
+      default:
+        contentType: application/json
+      bindings:
+        in:
+          destination: stream
+          group: group
+        out:
+          destination: stream
+          group: group

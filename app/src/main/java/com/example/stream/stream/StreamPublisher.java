@@ -1,29 +1,32 @@
-package com.example.stream.jms;
+package com.example.stream.stream;
 
 import com.example.stream.Message;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.jms.core.JmsTemplate;
+import org.springframework.cloud.stream.annotation.EnableBinding;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-@ConditionalOnProperty(name = "feature.jms", havingValue = "true")
-public class JmsPublisher {
-
-    private static final String QUEUE = "jms";
+@EnableBinding({
+    Channel.class
+})
+@ConditionalOnProperty(name = "feature.stream", havingValue = "true")
+public class StreamPublisher {
 
     @Autowired
-    private JmsTemplate jms;
+    private Channel channel;
 
     @Scheduled(initialDelay = 5000, fixedRate = 5000)
     public void publish() {
         log.info("publish()");
-        jms.convertAndSend(QUEUE,
-            new Message()
-                .setBody("jms"));
+        channel.out().send(MessageBuilder
+            .withPayload(new Message()
+                .setBody("stream"))
+            .build());
     }
 
 }
